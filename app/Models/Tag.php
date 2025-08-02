@@ -5,16 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Note extends Model
+class Tag extends Model
 {
     use HasUuids;
     use HasTimestamps;
-    protected $fillable = ['title', 'content'];
-
-    public function user(): HasOne
-    {
-        return $this->hasOne(User::class);
-    }
+    protected $fillable = ['title'];
 }

@@ -3,19 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Note;
+use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class NoteController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(): JsonResponse
     {
-        return response()->json(Note::all());
+        return response()->json(Tag::all());
     }
 
     /**
@@ -23,15 +22,9 @@ class NoteController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-//        $request->validate([
-//            'title' => 'required|string|max:255',
-//            'content' => 'required|text|max:65535',
-//        ]);
-        $input = [
-            'title' => 'Test Note Title',
-            'content' => 'Test Note Content',
-        ];
-        $note = Note::create($input);
+        $note = Tag::create([
+            'title' => 'Test Tag Title',
+        ]);
         $note->save();
         return response()->json($note);
     }
@@ -41,9 +34,9 @@ class NoteController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $note = Note::findOrFail($id);
+        $tag = Tag::findOrFail($id);
 
-        return response()->json($note);
+        return response()->json($tag);
     }
 
     /**
@@ -51,18 +44,23 @@ class NoteController extends Controller
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        $note = Note::findOrFail($id);
+        $tag = Tag::findOrFail($id);
 
-        $note->update($request->all());
-        $note->save();
-        return response()->json($note);
+        $tag->update($request->all());
+        $tag->save();
+
+        return response()->json($tag);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
-        //
+        $tag = Tag::findOrFail($id);
+
+        $tag->delete();
+
+        return response()->json($tag);
     }
 }
