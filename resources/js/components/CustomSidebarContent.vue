@@ -1,15 +1,39 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { Github } from 'lucide-vue-next';
+import { Folder, FolderOpen, NotebookPen } from 'lucide-vue-next';
 
-const resourcesNavItems: NavItem[] = [
+const noteItems: NavItem[] = [
     {
-        title: 'Github Repo',
-        href: 'https://github.com/nickc404/laravel-notes-app',
-        icon: Github,
+        title: 'Note 1',
+        href: '#'
+    },
+    {
+        title: 'Note 2',
+        href: '#'
+    },
+    {
+        title: 'Note 3',
+        href: '#'
+    },
+];
+
+const folderItems: NavItem[] = [
+    {
+        title: 'Folder 1',
+        href: '#',
+        icon: Folder
+    },
+    {
+        title: 'Folder 2',
+        href: '#',
+        icon: Folder
+    },
+    {
+        title: 'Folder 3',
+        href: '#',
+        icon: FolderOpen
     },
 ];
 
@@ -26,24 +50,40 @@ const currentPath = page.url;
         </div>
         <div class="flex-1 overflow-auto py-2">
             <nav class="grid items-start px-2 text-sm font-medium">
-                <h4 class="mb-1 px-2 py-1.5 text-sm font-semibold">Notes</h4>
-
-
+                <div class="text-sm">
+                    <h4 class="mb-1 px-2 py-1.5 text-sm font-semibold flex items-center gap-1">
+                        <NotebookPen class="h-4 w-4 text-cyan-400" />
+                        <span>Notes</span>
+                    </h4>
+                </div>
+                <div class="h-100 w-48">
+                    <div class="p-4">
+                        <div v-for="item in noteItems" :key="item.href">
+                            <div class="text-sm">
+                                <a :href="item.href">{{ item.title }}</a>
+                            </div>
+                            <Separator class="my-2" />
+                        </div>
+                    </div>
+                </div>
                 <Separator class="my-4" />
-
-                <h4 class="mb-1 px-2 py-1.5 text-sm font-semibold">Resources</h4>
-                <Button
-                    v-for="item in resourcesNavItems"
-                    :key="item.href"
-                    variant="ghost"
-                    :class="['w-full justify-start gap-2', { 'bg-muted': currentPath === item.href }]"
-                    as-child
-                >
-                    <a :href="item.href" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
-                        <component :is="item.icon" class="h-4 w-4" />
-                        {{ item.title }}
-                    </a>
-                </Button>
+                <div class="text-sm">
+                    <h4 class="mb-1 px-2 py-1.5 text-sm font-semibold flex items-center gap-1">
+                        <FolderOpen class="h-4 w-4 text-cyan-400" />
+                        <span>Folders</span>
+                    </h4>
+                </div>
+                <div class="h-72 w-48">
+                    <div class="p-4">
+                        <div v-for="item in folderItems" :key="item.href">
+                            <div class="text-sm">
+                                <a :href="item.href" class="flex items-center gap-1">
+                                    <span>{{ item.title }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </nav>
         </div>
     </div>
