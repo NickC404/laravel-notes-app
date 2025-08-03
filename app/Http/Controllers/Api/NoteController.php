@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Note;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class NoteController extends Controller
 {
@@ -30,6 +29,7 @@ class NoteController extends Controller
         $input = [
             'title' => 'Test Note Title',
             'content' => 'Test Note Content',
+            'user_id' => auth()->user()->id,
         ];
         $note = Note::create($input);
         $note->save();

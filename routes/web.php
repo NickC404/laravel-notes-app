@@ -1,14 +1,14 @@
 <?php
 
+use App\Models\Note;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
-
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'notes' => Note::all(),
+        'user' => auth()->user()
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/settings.php';
