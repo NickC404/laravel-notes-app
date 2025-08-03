@@ -3,12 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NoteRequest;
 use App\Models\Note;
+use App\Services\NoteService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
+    protected NoteService $noteService;
+
+    public function __construct(NoteService $noteService)
+    {
+        $this->noteService = $noteService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -20,19 +28,9 @@ class NoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(NoteRequest $request): JsonResponse
     {
-//        $request->validate([
-//            'title' => 'required|string|max:255',
-//            'content' => 'required|text|max:65535',
-//        ]);
-        $input = [
-            'title' => 'Test Note Title',
-            'content' => 'Test Note Content',
-            'user_id' => auth()->user()->id,
-        ];
-        $note = Note::create($input);
-        $note->save();
+        $note = $this->noteService->create($request->validated());
         return response()->json($note);
     }
 
@@ -42,19 +40,15 @@ class NoteController extends Controller
     public function show(string $id): JsonResponse
     {
         $note = Note::findOrFail($id);
-
         return response()->json($note);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(NoteRequest $request, $id): JsonResponse
     {
-        $note = Note::findOrFail($id);
-
-        $note->update($request->all());
-        $note->save();
+        $note = $this->noteService->update($request->validated(), $id);
         return response()->json($note);
     }
 
@@ -63,6 +57,6 @@ class NoteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
     }
 }
