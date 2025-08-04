@@ -9,6 +9,7 @@ class NoteService
 {
     public function create(array $data): Note
     {
+        $data['user_id'] = auth()->id();
         $note = Note::create($data);
         if (!$note->save()) {
             throw new UnprocessableEntityHttpException();

@@ -10,6 +10,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('notes', NoteController::class);
-Route::apiResource('folders', FolderController::class);
-Route::apiResource('tags', TagController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('notes', NoteController::class);
+    Route::apiResource('folders', FolderController::class);
+    Route::apiResource('tags', TagController::class);
+});

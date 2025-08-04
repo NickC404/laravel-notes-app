@@ -11,10 +11,10 @@ class Note extends Model
 {
     use HasUuids;
     use HasTimestamps;
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['title', 'content', 'user_id'];
 
-    public function user(): HasOne
+    public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 }
